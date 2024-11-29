@@ -19,7 +19,39 @@ public abstract class Card {
      *
      * @return a String representation of a card. Could be an UNO card, a regular playing card etc.
      */
+    
+    private Rank rank;
+    private Suit suit;
+
+    public Card(){
+
+    }
+    public Card(Rank rank, Suit suit){
+    this.rank = rank;
+    this.suit = suit;
+    }
+
+    public void setRank(Rank rank){
+        this.rank = rank;
+    }
+    public Rank getRank(){
+        return this.rank;
+    }
+
+    public void setSuit(Suit suit){
+        this.suit = suit;
+    }
+    public Suit getSuit(){
+        return this.suit;
+    }
+
+    public String shortString(){
+        return rank.rankShort() + suit.suitUnicode();
+    }
+
     @Override
-    public abstract String toString();
+    public String toString(){
+        return rank.rankName() + " of " + suit.suitName();
+    }
 
 }
