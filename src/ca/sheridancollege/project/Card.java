@@ -11,7 +11,9 @@ package ca.sheridancollege.project;
  *
  * @author dancye
  */
-public abstract class Card {
+
+// removed abstract so that GroupOfCards can instantiate
+public class Card {
     //default modifier for child classes
 
     /**

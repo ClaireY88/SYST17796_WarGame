@@ -25,6 +25,17 @@ public class GroupOfCards {
         this.size = size;
     }
 
+    //modify to generate deck of cards for array
+    public void createDeck(){
+        for(int s=0; s<4; s++){
+            Suit suitValue = Suit.values()[s];
+            for(int r=0; r<13; r++){
+                Rank rankValue = Rank.values()[r];
+                cards.add(new Card(rankValue, suitValue));
+            }
+        }
+    }
+    
     /**
      * A method that will get the group of cards as an ArrayList
      *
@@ -51,5 +62,7 @@ public class GroupOfCards {
     public void setSize(int size) {
         this.size = size;
     }
+    
+    //function to split deck into two piles
 
 }//end class
