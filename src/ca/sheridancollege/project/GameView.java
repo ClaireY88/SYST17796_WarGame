@@ -20,7 +20,7 @@ public class GameView {
     //function to enter player names, check if in array?
     
     //function to print results from one round
-    public void roundText(int counter, Player player) {
+    public void roundText(int counter, WarPlayer player) {
     System.out.println("Round: " + counter);
     //shows what card each player drew toString?
     System.out.println("Card1 VS Card2");
@@ -34,7 +34,7 @@ public class GameView {
     }
     //another function for the rest of text for war? preparing the three cards
 
-    public void declareWinner(Player player) {
+    public void declareWinner(WarPlayer player) {
         System.out.printf("The winner of the game is %s!", player.getName());
     }
 

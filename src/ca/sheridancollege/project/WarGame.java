@@ -20,19 +20,15 @@ public class WarGame {
     private ArrayList<Player> players;// the players of the game
     private GroupOfCards deck;
     private int counter = 0;
-    private boolean hasWinner = false;
     
     //variable for cards wagered in war tie
     private ArrayList<Card> pool;
     
-    //card variable to compare each round
-    private Card p1Card;
-    private Card p2Card;
-    
     //variables for the two players, not sure if overlap with list?
-    private Player player1;
-    private Player player2;
-    private Player winner;
+    private WarPlayer player1;
+    private WarPlayer player2;
+    private WarPlayer winner;
+    private WarPlayer roundWinner;
 
     public WarGame(String name) {
         this.name = name;
@@ -49,29 +45,54 @@ public class WarGame {
     /**
      * @return the players of this game
      */
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<WarPlayer> getPlayers() {
         return players;
     }
 
     /**
      * @param players the players of this game
      */
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<WarPlayer> players) {
         this.players = players;
     }
 
+    /**
+     * Create deck and prepare hands for the two players
+     */
+    public void prepCards(){
+        //create fresh deck and shuffle
+        deck = new GroupOfCards(52);
+        deck.shuffle();
+        
+        //split the deck into halves
+        List<Card> cards1 = deck.getCards().subList(0, 26);
+        List<Card> cards2 = deck.getCards().subList(26, 52);
+        
+        //create two hands with the split deck of cards
+        Hand player1Hand = new Hand(cards1);
+        Hand player2Hand = new Hand(cards2);
+        
+        // Create Hands for players
+        player1.setHand(player1Hand);
+        player2.setHand(player2Hand);
+    }
+    
     /**
      * Play the game. This might be one method or many method calls depending on your game.
      */
     public void play(){
         prepGame();
         //loop of while game not won
-        while (hasWinner = false) {
+        while (hasWinner() == false) {
+            //check if game has ended
             hasWinner();
+            
+            //the two players play a round of the game
             playRound();
             
         }
         //display end of game text
+        winner = isWinner();
         declareWinner(winner);
     }
 
@@ -79,37 +100,21 @@ public class WarGame {
     
     //get the names of the two players
     //might need function in GameView class
-
-    //create fresh deck and shuffle
-        deck = new GroupOfCards(52);
-        deck.shuffle();
-        
-    // Create Hands for players
-    player1.setHand(new Hand());
-    player2.setHand(new Hand());
-    
-    //deal cards from deck to the players
-    deck1.addAll(cardDeck.subList(0, 25));              //26 cards for p1       
-    deck2.addAll(cardDeck.subList(26, cardDeck.size()));//26 cards for p2
-
+        GameView.openingMessage();
+        prepCards();
     }
 
     //function that represents one round of the game being played
     public void playRound() {
         
     //draws a card from each player's hand
-    p1Card = player1.playTopCard();
-    p2Card = player2.playTopCard();
+    p1Card = player1.getHand().playTopCard();
+    p2Card = player2.getHand().playTopCard();
     
-    //case for scenarios of win, loss, tie-war
-    if (pool == null) {
-        pool = new Hand();
-    }
-    
-    //check if win conditions are met
-    
+    roundWinner = compare(p1Card, p2Card);
+
     //print round information
-    GameView.roundText(counter, player1, p1card, p2card);
+    GameView.roundText(counter, roundWinner, p1card, p2card);
     
     //update counter variable
     counter++;
@@ -118,18 +123,64 @@ public class WarGame {
     //function that represents the logic when war occurs
     
     //function compares the two drawn cards
-    public Player compare(Card p1card, Card p2card){
-    return player1;
+    public WarPlayer compare(Card p1card, Card p2card){
+        //place the two cards into pool
+        pool.add(p1card);
+        pool.add(p2card);
+        
+        //compare card values and add won cards to player deck
+        if (p1card.getRank() > p2card.getRank()) {
+            player1.getHand().addCards(pool);
+        return player1
+        }
+        else if (p1card.getRank() < p2card.getRank()) {
+            player2.getHand().addCards(pool);
+        return player2
+        }
+        //if there is a tie
+        else {
+            //add more cards to the pool
+            pool.add(player1.getHand().playCards(3));
+            pool.add(player2.getHand().playCards(3));
+            
+            Card p1War = player1.getHand().playTopCard();
+            Card p2War = player2.getHand().playTopCard();
+            
+            return compare(p1War, p2War);
+        }
+    }
+    
+    public Boolean hasWinner(){
+    if (counter == 100 || player1.getHand().getSize()==0 || player2.getHand().getSize()==0) {
+    return true
+    }
+    return false;
     }
     
     /**
      * Function checks if the game has a winner or reached max rounds
      */
-    public Boolean hasWinner(){
-        if (counter = 100) {
+    public WarPlayer Boolean isWinner(){
+        if (counter == 100) {
         System.out.println("Maximum number of rounds reached.");
-        
-        } 
+            if (player1.getHand().getSize() > player2.getHand().getSize()) {
+            return player1;
+            }
+            else if (player1.getHand().getSize() < player2.getHand().getSize()) {
+            return player2;
+            }
+            else {
+            GameView.announceDraw();
+            break;
+            }
+        }
+        else if (player1.getHand().getSize() == 0){
+        return player2;
+        }
+        else if (player2.getHand().getSize() == 0){
+        return player1;
+        }
+        else return null;
     }
     
     /**
