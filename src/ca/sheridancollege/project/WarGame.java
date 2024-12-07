@@ -20,7 +20,7 @@ public class WarGame {
     private ArrayList<Player> players;// the players of the game
     private GroupOfCards deck;
     private int counter = 0;
-    private boolean gameDone = false;
+    private boolean hasWinner = false;
     
     //variable for cards wagered in war tie
     private ArrayList<Card> pool;
@@ -66,15 +66,17 @@ public class WarGame {
     public void play(){
         prepGame();
         //loop of while game not won
-        while (gameDone = false) {
+        while (hasWinner = false) {
+            hasWinner();
             playRound();
+            
         }
         //display end of game text
         declareWinner(winner);
     }
 
     public void prepGame(){
-
+    
     //get the names of the two players
     //might need function in GameView class
 
@@ -96,22 +98,45 @@ public class WarGame {
     public void playRound() {
         
     //draws a card from each player's hand
-    p1Card = player1.getHand().pop();
-    p2Card = player2.getHand().pop();
+    p1Card = player1.playTopCard();
+    p2Card = player2.playTopCard();
     
     //case for scenarios of win, loss, tie-war
+    if (pool == null) {
+        pool = new Hand();
+    }
+    
     //check if win conditions are met
+    
+    //print round information
+    GameView.roundText(counter, player1, p1card, p2card);
+    
     //update counter variable
     counter++;
     }
     
     //function that represents the logic when war occurs
     
+    //function compares the two drawn cards
+    public Player compare(Card p1card, Card p2card){
+    return player1;
+    }
+    
+    /**
+     * Function checks if the game has a winner or reached max rounds
+     */
+    public Boolean hasWinner(){
+        if (counter = 100) {
+        System.out.println("Maximum number of rounds reached.");
+        
+        } 
+    }
+    
     /**
      * When the game is over, use this method to declare and display a winning player.
      */
     public void declareWinner(winner){
-        declareWinner(winner);
+        GameView.messageWinner(winner);
     }
 
 }//end class
