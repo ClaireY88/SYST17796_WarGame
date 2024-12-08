@@ -1,12 +1,9 @@
 /**
- * SYST 17796 Project Base code.
- * Students can modify and extend to implement their game.
- * Add your name as an author and the date!
+ * SYST 17796 Project.
  */
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The class that models your game. You should create a more specific child of this class and instantiate the methods
@@ -14,6 +11,7 @@ import java.util.List;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
+ * @author Claire Yao 2024-12-07
  */
 public class WarGame {
 
@@ -63,11 +61,12 @@ public class WarGame {
     public void prepCards(){
         //create fresh deck and shuffle
         deck = new GroupOfCards(52);
+        deck.createDeck();
         deck.shuffle();
         
         //split the deck into halves
-        ArrayList<Card> cards1 = (ArrayList<Card>) deck.getCards().subList(0, 26);
-        ArrayList<Card> cards2 = (ArrayList<Card>) deck.getCards().subList(26, 52);
+        ArrayList<StandardPlayingCard> cards1 = (ArrayList<StandardPlayingCard>) deck.getCards().subList(0, 26);
+        ArrayList<StandardPlayingCard> cards2 = (ArrayList<StandardPlayingCard>) deck.getCards().subList(26, 52);
         
         //create two hands with the split deck of cards
         Hand player1Hand = new Hand(cards1);
@@ -111,8 +110,8 @@ public class WarGame {
     public void playRound() {
         
     //draws a card from each player's hand
-    Card p1Card = player1.getHand().playTopCard();
-    Card p2Card = player2.getHand().playTopCard();
+    StandardPlayingCard p1Card = player1.getHand().playTopCard();
+    StandardPlayingCard p2Card = player2.getHand().playTopCard();
     
     roundWinner = compare(p1Card, p2Card);
 
@@ -124,7 +123,7 @@ public class WarGame {
     }
     
     //function compares the two drawn cards
-    public WarPlayer compare(Card p1card, Card p2card){
+    public WarPlayer compare(StandardPlayingCard p1card, StandardPlayingCard p2card){
         //place the two cards into pool
         pool.getHands().add(p1card);
         pool.getHands().add(p2card);
@@ -146,8 +145,8 @@ public class WarGame {
             pool.addCards(player1.getHand().playCards(3));
             pool.addCards(player2.getHand().playCards(3));
             
-            Card p1War = player1.getHand().playTopCard();
-            Card p2War = player2.getHand().playTopCard();
+            StandardPlayingCard p1War = player1.getHand().playTopCard();
+            StandardPlayingCard p2War = player2.getHand().playTopCard();
             
             return compare(p1War, p2War);
         }

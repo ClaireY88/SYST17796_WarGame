@@ -6,21 +6,20 @@ package ca.sheridancollege.project;
 
 /**
  *
- * @author clair
+ * @author claire yao
  */
 public class GameView {
     //all the text that appears in the command line
     
     public static void openingMessage() {
         System.out.println("Game of War\n" +
-                "This Game is automated and will play until one deck is empty or the game reaches 50 rounds.");
-        System.out.println("Indicate that you are ready by hitting enter.");
+                "This Game will play until one deck is empty or the game reaches 100 rounds.");
     }
     
     //function to enter player names, check if in array?
     
     //function to print results from one round
-    public static void roundText(int counter, WarPlayer player, Card p1card, Card p2card) {
+    public static void roundText(int counter, WarPlayer player, StandardPlayingCard p1card, StandardPlayingCard p2card) {
     System.out.println("Round: " + counter);
     //shows what card each player drew toString?
     System.out.println(p1card.toString() + " VS " + p2card.toString());

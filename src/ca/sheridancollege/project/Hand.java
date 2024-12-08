@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Hand {
     
-    private ArrayList<Card> hand; 
+    private ArrayList<StandardPlayingCard> hand; 
     
     /**
     * constructor for creating a empty hand
@@ -25,7 +25,7 @@ public class Hand {
     * constructor for creating hands, each hand get 26 cards to start 
     * @param cards the half deck of 26 cards 
     */
-    public Hand(ArrayList<Card> cards) {
+    public Hand(ArrayList<StandardPlayingCard> cards) {
         this.hand = cards; 
     }
     
@@ -41,7 +41,7 @@ public class Hand {
     * play the top card from the hand 
     * @return Card 
     */
-    public Card playTopCard() {
+    public StandardPlayingCard playTopCard() {
         return this.hand.size() > 0 ? this.hand.remove(0) : null;
     }
     
@@ -50,13 +50,13 @@ public class Hand {
     * @param numberOfCards the number of cards to play in one go 
     * @return ArrayList Card, or null if not enough card to play 
     */
-    public ArrayList<Card> playCards(int numberOfCards) {
+    public ArrayList<StandardPlayingCard> playCards(int numberOfCards) {
         
         if (this.hand.size() < numberOfCards) {
             return null; 
         }
         
-        ArrayList<Card> playedCards = new ArrayList<>(); // local variable oto hold the list of played cards 
+        ArrayList<StandardPlayingCard> playedCards = new ArrayList<>(); // local variable oto hold the list of played cards 
         
         for (int i=0; i < numberOfCards; i++){
             playedCards.add(this.hand.remove(0)); 
@@ -69,7 +69,7 @@ public class Hand {
     * collect and add cards to the hands  
     * @param wonCards the player win cards for one round 
     */
-    public void addCards(ArrayList<Card> wonCards){
+    public void addCards(ArrayList<StandardPlayingCard> wonCards){
         this.hand.addAll(wonCards); 
     }
     
@@ -77,7 +77,7 @@ public class Hand {
     * printing and testing the result  
     * @return hand the array list of hand cards 
     */
-    public ArrayList<Card> getHands() {
+    public ArrayList<StandardPlayingCard> getHands() {
         return this.hand; 
     }
     
