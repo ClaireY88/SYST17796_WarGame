@@ -4,6 +4,7 @@
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * The class that models your game. You should create a more specific child of this class and instantiate the methods
@@ -18,15 +19,13 @@ public class WarGame {
     private final String name;//the title of the game
     private ArrayList<WarPlayer> players;// the players of the game
     private GroupOfCards deck;
-    private int counter = 0;
+    private int counter = 1;
     
     //variable for cards wagered in war tie
     private final Hand pool = new Hand();
     
-    //variables for the two players, not sure if overlap with list?
     private WarPlayer player1;
     private WarPlayer player2;
-    private WarPlayer winner;
     private WarPlayer roundWinner;
 
     public WarGame(String name) {
@@ -65,8 +64,8 @@ public class WarGame {
         deck.shuffle();
         
         //split the deck into halves
-        ArrayList<StandardPlayingCard> cards1 = (ArrayList<StandardPlayingCard>) deck.getCards().subList(0, 26);
-        ArrayList<StandardPlayingCard> cards2 = (ArrayList<StandardPlayingCard>) deck.getCards().subList(26, 52);
+        ArrayList<StandardPlayingCard> cards1 = new ArrayList<StandardPlayingCard>(deck.getCards().subList(0, 26));
+        ArrayList<StandardPlayingCard> cards2 = new ArrayList<StandardPlayingCard>(deck.getCards().subList(26, 52));
         
         //create two hands with the split deck of cards
         Hand player1Hand = new Hand(cards1);
@@ -92,17 +91,21 @@ public class WarGame {
             
         }
         //display end of game text
-        winner = isWinner();
-        declareWinner(winner);
+        declareWinner(isWinner());
     }
 
     public void prepGame(){
     
-    //get the names of the two players
-    
-    
     //might need function in GameView class
         GameView.openingMessage();
+        
+        //get player names and assign to variable
+        player1 = createPlayer(1);
+        player2 = createPlayer(2);
+        players.add(player1);
+        players.add(player2);
+        System.out.println("\n");
+        System.out.println("============================");
         prepCards();
     }
 
@@ -125,8 +128,16 @@ public class WarGame {
     //function compares the two drawn cards
     public WarPlayer compare(StandardPlayingCard p1card, StandardPlayingCard p2card){
         //place the two cards into pool
+        if (p1card == null){
+        return player2;
+        }
+        else if (p2card == null){
+        return player1;
+        }
+        else {
         pool.getHands().add(p1card);
         pool.getHands().add(p2card);
+        }
         
         //compare card values and add won cards to player deck
         if (p1card.getRank().rankValue() > p2card.getRank().rankValue()) {
@@ -163,6 +174,9 @@ public class WarGame {
     public WarPlayer isWinner(){
         if (counter == 100) {
         System.out.println("Maximum number of rounds reached.");
+        System.out.println(player1.getName()+ ": " + player1.getHand().getSize() + " Cards");
+        System.out.println(player2.getName()+ ": " + player2.getHand().getSize() + " Cards");
+        
             if (player1.getHand().getSize() > player2.getHand().getSize()) {
             return player1;
             }
@@ -192,5 +206,12 @@ public class WarGame {
     public void declareWinner(WarPlayer winner){
         GameView.messageWinner(winner);
     }
-
+    
+    public WarPlayer createPlayer(int number) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Player " + number + " Name : ");
+        String playerName = scanner.nextLine();
+        return new WarPlayer(playerName);
+    }
+    
 }//end class
