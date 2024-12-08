@@ -9,11 +9,11 @@ package ca.sheridancollege.project;
  * A class to be used as the base Card class for the project. Must be general enough to be instantiated for any Card
  * game. Students wishing to add to the code should remember to add themselves as a modifier.
  *
- * @author YueHou branch
+ * @author dancye
  */
 
 // removed abstract so that GroupOfCards can instantiate
-public abstract class Card {
+public class StandardPlayingCard {
     //default modifier for child classes
 
     /**
@@ -25,10 +25,10 @@ public abstract class Card {
     private Rank rank;
     private Suit suit;
 
-    public Card(){
+    public StandardPlayingCard(){
 
     }
-    public Card(Rank rank, Suit suit){
+    public StandardPlayingCard(Rank rank, Suit suit){
     this.rank = rank;
     this.suit = suit;
     }

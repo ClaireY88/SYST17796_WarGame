@@ -18,7 +18,7 @@ import java.util.Collections;
 public class GroupOfCards {
 
     //The group of cards, stored in an ArrayList
-    private ArrayList<Card> cards;
+    private ArrayList<StandardPlayingCard> cards;
     private int size;//the size of the grouping
 
     public GroupOfCards(int size) {
@@ -31,7 +31,7 @@ public class GroupOfCards {
             Suit suitValue = Suit.values()[s];
             for(int r=0; r<13; r++){
                 Rank rankValue = Rank.values()[r];
-                cards.add(new Card(rankValue, suitValue));
+                cards.add(new StandardPlayingCard(rankValue, suitValue));
             }
         }
     }
@@ -41,7 +41,7 @@ public class GroupOfCards {
      *
      * @return the group of cards.
      */
-    public ArrayList<Card> getCards() {
+    public ArrayList<StandardPlayingCard> getCards() {
         return cards;
     }
 

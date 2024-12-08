@@ -6,7 +6,7 @@ package ca.sheridancollege.project;
 
 /**
  *
- * @author clair
+ * @author claire yao
  */
 public enum Rank {
         TWO(2, "Two", "2"),
