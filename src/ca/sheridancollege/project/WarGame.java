@@ -6,6 +6,7 @@
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class that models your game. You should create a more specific child of this class and instantiate the methods
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 public class WarGame {
 
     private final String name;//the title of the game
-    private ArrayList<Player> players;// the players of the game
+    private ArrayList<WarPlayer> players;// the players of the game
     private GroupOfCards deck;
     private int counter = 0;
     
     //variable for cards wagered in war tie
-    private ArrayList<Card> pool;
+    private final Hand pool = new Hand();
     
     //variables for the two players, not sure if overlap with list?
     private WarPlayer player1;
@@ -65,8 +66,8 @@ public class WarGame {
         deck.shuffle();
         
         //split the deck into halves
-        List<Card> cards1 = deck.getCards().subList(0, 26);
-        List<Card> cards2 = deck.getCards().subList(26, 52);
+        ArrayList<Card> cards1 = (ArrayList<Card>) deck.getCards().subList(0, 26);
+        ArrayList<Card> cards2 = (ArrayList<Card>) deck.getCards().subList(26, 52);
         
         //create two hands with the split deck of cards
         Hand player1Hand = new Hand(cards1);
@@ -99,6 +100,8 @@ public class WarGame {
     public void prepGame(){
     
     //get the names of the two players
+    
+    
     //might need function in GameView class
         GameView.openingMessage();
         prepCards();
@@ -108,40 +111,40 @@ public class WarGame {
     public void playRound() {
         
     //draws a card from each player's hand
-    p1Card = player1.getHand().playTopCard();
-    p2Card = player2.getHand().playTopCard();
+    Card p1Card = player1.getHand().playTopCard();
+    Card p2Card = player2.getHand().playTopCard();
     
     roundWinner = compare(p1Card, p2Card);
 
     //print round information
-    GameView.roundText(counter, roundWinner, p1card, p2card);
+    GameView.roundText(counter, roundWinner, p1Card, p2Card);
     
     //update counter variable
     counter++;
     }
     
-    //function that represents the logic when war occurs
-    
     //function compares the two drawn cards
     public WarPlayer compare(Card p1card, Card p2card){
         //place the two cards into pool
-        pool.add(p1card);
-        pool.add(p2card);
+        pool.getHands().add(p1card);
+        pool.getHands().add(p2card);
         
         //compare card values and add won cards to player deck
-        if (p1card.getRank() > p2card.getRank()) {
-            player1.getHand().addCards(pool);
-        return player1
+        if (p1card.getRank().rankValue() > p2card.getRank().rankValue()) {
+            player1.getHand().addCards(pool.getHands());
+            pool.getHands().clear();
+        return player1;
         }
-        else if (p1card.getRank() < p2card.getRank()) {
-            player2.getHand().addCards(pool);
-        return player2
+        else if (p1card.getRank().rankValue() < p2card.getRank().rankValue()) {
+            player2.getHand().addCards(pool.getHands());
+            pool.getHands().clear();
+        return player2;
         }
         //if there is a tie
         else {
             //add more cards to the pool
-            pool.add(player1.getHand().playCards(3));
-            pool.add(player2.getHand().playCards(3));
+            pool.addCards(player1.getHand().playCards(3));
+            pool.addCards(player2.getHand().playCards(3));
             
             Card p1War = player1.getHand().playTopCard();
             Card p2War = player2.getHand().playTopCard();
@@ -151,16 +154,14 @@ public class WarGame {
     }
     
     public Boolean hasWinner(){
-    if (counter == 100 || player1.getHand().getSize()==0 || player2.getHand().getSize()==0) {
-    return true
-    }
-    return false;
+    return counter == 100 || player1.getHand().getSize()==0 || player2.getHand().getSize()==0;
     }
     
     /**
      * Function checks if the game has a winner or reached max rounds
+     * @return 
      */
-    public WarPlayer Boolean isWinner(){
+    public WarPlayer isWinner(){
         if (counter == 100) {
         System.out.println("Maximum number of rounds reached.");
             if (player1.getHand().getSize() > player2.getHand().getSize()) {
@@ -171,7 +172,7 @@ public class WarGame {
             }
             else {
             GameView.announceDraw();
-            break;
+            return null;
             }
         }
         else if (player1.getHand().getSize() == 0){
@@ -180,13 +181,16 @@ public class WarGame {
         else if (player2.getHand().getSize() == 0){
         return player1;
         }
-        else return null;
+        else {
+            return null;
+        }
     }
     
     /**
      * When the game is over, use this method to declare and display a winning player.
+     * @param winner
      */
-    public void declareWinner(winner){
+    public void declareWinner(WarPlayer winner){
         GameView.messageWinner(winner);
     }
 
