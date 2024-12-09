@@ -152,7 +152,7 @@ public class WarGame {
         }
         //if there is a tie
         else {
-            announceWar();
+            GameView.announceWar();
             
             //add more cards to the pool
             pool.addCards(player1.getHand().playCards(3));
