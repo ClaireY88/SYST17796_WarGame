@@ -28,7 +28,7 @@ public class GameView {
     }
     
     //print war round
-    public void announceWar() {
+    public static void announceWar() {
         System.out.println("There was a tie! WAR!");
     }
     //another function for the rest of text for war? preparing the three cards
