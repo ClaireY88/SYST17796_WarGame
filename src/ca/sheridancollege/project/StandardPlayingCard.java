@@ -13,7 +13,7 @@ package ca.sheridancollege.project;
  */
 
 // removed abstract so that GroupOfCards can instantiate
-public abstract class Card {
+public class StandardPlayingCard {
     //default modifier for child classes
 
     /**
@@ -25,10 +25,10 @@ public abstract class Card {
     private Rank rank;
     private Suit suit;
 
-    public Card(){
+    public StandardPlayingCard(){
 
     }
-    public Card(Rank rank, Suit suit){
+    public StandardPlayingCard(Rank rank, Suit suit){
     this.rank = rank;
     this.suit = suit;
     }

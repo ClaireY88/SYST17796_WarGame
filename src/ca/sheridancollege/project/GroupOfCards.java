@@ -18,19 +18,31 @@ import java.util.Collections;
 public class GroupOfCards {
 
     //The group of cards, stored in an ArrayList
-    private ArrayList<Card> cards;
+    private ArrayList<StandardPlayingCard> cards;
     private int size;//the size of the grouping
 
     public GroupOfCards(int size) {
         this.size = size;
+        this.cards = new ArrayList<>();
     }
 
+    //modify to generate deck of cards for array
+    public void createDeck(){
+        for(int s=0; s<4; s++){
+            Suit suitValue = Suit.values()[s];
+            for(int r=0; r<13; r++){
+                Rank rankValue = Rank.values()[r];
+                cards.add(new StandardPlayingCard(rankValue, suitValue));
+            }
+        }
+    }
+    
     /**
      * A method that will get the group of cards as an ArrayList
      *
      * @return the group of cards.
      */
-    public ArrayList<Card> getCards() {
+    public ArrayList<StandardPlayingCard> getCards() {
         return cards;
     }
 
@@ -51,5 +63,7 @@ public class GroupOfCards {
     public void setSize(int size) {
         this.size = size;
     }
+    
+    //function to split deck into two piles
 
 }//end class
