@@ -13,7 +13,9 @@ package ca.sheridancollege.project;
  */
 
 // removed abstract so that GroupOfCards can instantiate
+
 public class StandardPlayingCard extends Card {
+
     //default modifier for child classes
 
     /**

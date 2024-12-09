@@ -14,8 +14,8 @@ import java.util.Scanner;
  * @author Paul Bonenfant Jan 2020
  * @author Claire Yao 2024-12-07
  */
-public class WarGame extends Game{
 
+public class WarGame extends Game{
 
     //private ArrayList<WarPlayer> players;// the players of the game
     private GroupOfCards deck;
@@ -134,6 +134,8 @@ public class WarGame extends Game{
         }
         //if there is a tie
         else {
+            announceWar();
+            
             //add more cards to the pool
             pool.addCards(player1.getHand().playCards(3));
             pool.addCards(player2.getHand().playCards(3));
