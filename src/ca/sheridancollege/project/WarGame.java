@@ -152,6 +152,8 @@ public class WarGame {
         }
         //if there is a tie
         else {
+            announceWar();
+            
             //add more cards to the pool
             pool.addCards(player1.getHand().playCards(3));
             pool.addCards(player2.getHand().playCards(3));
