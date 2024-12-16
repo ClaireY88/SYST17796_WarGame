@@ -14,10 +14,10 @@ import java.util.Scanner;
  * @author Paul Bonenfant Jan 2020
  * @author Claire Yao 2024-12-07
  */
-public class WarGame {
 
-    private final String name;//the title of the game
-    private ArrayList<WarPlayer> players;// the players of the game
+public class WarGame extends Game{
+
+    //private ArrayList<WarPlayer> players;// the players of the game
     private GroupOfCards deck;
     private int counter = 1;
     
@@ -29,29 +29,7 @@ public class WarGame {
     private WarPlayer roundWinner;
 
     public WarGame(String name) {
-        this.name = name;
-        players = new ArrayList();
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the players of this game
-     */
-    public ArrayList<WarPlayer> getPlayers() {
-        return players;
-    }
-
-    /**
-     * @param players the players of this game
-     */
-    public void setPlayers(ArrayList<WarPlayer> players) {
-        this.players = players;
+        super(name);
     }
 
     /**
@@ -79,6 +57,7 @@ public class WarGame {
     /**
      * Play the game. This might be one method or many method calls depending on your game.
      */
+    @Override
     public void play(){
         prepGame();
         //loop of while game not won
@@ -91,19 +70,22 @@ public class WarGame {
             
         }
         //display end of game text
-        declareWinner(isWinner());
+        declareWinner();
     }
 
     public void prepGame(){
     
-    //might need function in GameView class
+        //might need function in GameView class
         GameView.openingMessage();
+        
+        // Add players to the list managed by the Game superclass
+        getPlayers().add(player1);
+        getPlayers().add(player2);
         
         //get player names and assign to variable
         player1 = createPlayer(1);
         player2 = createPlayer(2);
-        players.add(player1);
-        players.add(player2);
+      
         System.out.println("\n");
         System.out.println("============================");
         prepCards();
@@ -203,10 +185,12 @@ public class WarGame {
     
     /**
      * When the game is over, use this method to declare and display a winning player.
-     * @param winner
+     * 
      */
-    public void declareWinner(WarPlayer winner){
-        GameView.messageWinner(winner);
+    @Override
+    public void declareWinner(){
+        GameView.messageWinner(isWinner());
+         
     }
     
     public WarPlayer createPlayer(int number) {
